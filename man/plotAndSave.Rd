@@ -2,19 +2,25 @@
 \alias{plotAndSave}
 \title{Display And Save A Plot}
 \description{
-  \code{plotAndSave} saves a plot as \dQuote{pdf} and/or \dQuote{eps}
-  and additionally displays the plot. 
+  \code{plotAndSave} saves a plot as \dQuote{pdf}, \dQuote{(e)ps},
+  \dQuote{jp(e)g}, \dQuote{png}, \dQuote{bmp}, \dQuote{tiff},
+  \dQuote{emf} and/or \dQuote{wmf} and additionally displays
+  the plot. 
 }
 \usage{
-plotAndSave(plot.func, plot.name, \dots, folder = getwd(),
-            format = c("eps", "pdf"),
-            ps.options=list(onefile = TRUE, horizontal = FALSE,
-                 paper = "special", width = 7, height = 7), 
-            pdf.options = list(onefile = TRUE),
-            do.plot = TRUE, do.return = do.plot)
+plotAndSave(plot.func, plot.name, \dots, folder=getwd(),
+         format=c("eps", "pdf"),
+         options=list(eps = list(onefile=TRUE, horizontal=FALSE,
+                                 paper="special",
+                                 width=7, height=7),
+                      ps  = list(onefile=TRUE, horizontal=FALSE,
+                                 paper="special",
+                                 width=7, height=7),
+                      pdf = list(onefile=TRUE)),
+         do.plot=TRUE, do.return=do.plot)
 }
 \arguments{
-  \item{plot.func}{either a function or a non-empty character string
+  \item{plot.func}{either a function or a non-empty character string 
     naming the plotting function to be called.}
   \item{plot.name}{a character string (without any suffix such as
     \dQuote{.pdf} or \dQuote{.eps}) giving the name of the file where
@@ -24,14 +30,14 @@ plotAndSave(plot.func, plot.name, \dots, folder = getwd(),
   \item{folder}{a character string giving the name of the folder to
     which the plot should be saved. The default is the current
     directory.}
-  \item{format}{output format. Must be a subset of (\dQuote{eps},
-      \dQuote{pdf}). The default is to produce both an eps-file and a
-    pdf-file. Can be abbreviated.}
-  \item{ps.options}{named list of options to be passed to the PostScript
-    device driver.\cr See \code{\link{postscript}} for further
-    details.}
-  \item{pdf.options}{named list of options to be passed to the PDF
-    device driver.\cr See \code{\link{pdf}} for further details.}
+  \item{format}{output format. Must be a subset of (\dQuote{pdf},
+    \dQuote{(e)ps}, \dQuote{jp(e)g}, \dQuote{png}, \dQuote{bmp},
+    \dQuote{tiff}, \dQuote{emf}, \dQuote{wmf}). The latter two
+    can be used only on with a Windows OS. The default is to
+    produce both an eps-file and a pdf-file. Can be abbreviated.}
+  \item{options}{named list of options to be passed to the 
+    respective device driver. Each entry of the list is an option
+    list for the device corresponding to the name of the list item.}
   \item{do.plot}{logical. If \code{TRUE} (the default) the plot is
     displayed.}
   \item{do.return}{logical. If \code{TRUE} the return value of the
@@ -47,18 +53,17 @@ plotAndSave(plot.func, plot.name, \dots, folder = getwd(),
   to save it to a file simultaneously.
 
   The file name must be given without any file-suffix. Depending on the
-  argument \code{format} the function then generates either a
-  PDF-file, an EPS-file or both with the appropriate suffix. The path
-  should not be included in the file name, since the location where the
-  files should be saved to is controlled by the parameter \code{folder}.
+  argument \code{format} the function then generates the respective file
+  with the appropriate suffix. The path should not be included in the
+  file name, since the location where the files should be saved to is
+  controlled by the parameter \code{folder}.
 
   The function needs a plotting function to be defined, which actually
   does the plotting itself. Additional arguments (e.g. further graphical
   parameters) can be passed to \code{plotAndSave}, which in turn, passes
   these arguments down to the plotting function,
 
-  The parameters of the PostScript and the PDF device are controlled by
-  the arguments \code{ps.options} and \code{pdf.options}, respectively.
+  The parameters of devices are controlled by the arguments \code{options}.
 }
 \note{
   When using Trellis plots from package \pkg{lattice} one has to assure
@@ -68,7 +73,10 @@ plotAndSave(plot.func, plot.name, \dots, folder = getwd(),
   function in a call of the function \code{print}. The generic function
   \code{print} ensures that the plot is displayed and not just returned
   as an object.}
-\seealso{\code{\link{pdf}}, \code{\link{postscript}}}
+\seealso{\code{\link{pdf}}, \code{\link{postscript}},
+  \code{\link{jpeg}}, \code{\link{png}}, \code{\link{bmp}},
+    \code{\link{tiff}} 
+  }
 
 \examples{
 \dontrun{
@@ -85,7 +93,7 @@ f <- function(x, ...) plot(x, sin(x), col=2, type="l", ...)
 # and add a title to the plot
 
 plotAndSave(f, "Sine_Function", x=seq(-pi, pi, length=100),
-            main="Sine-Function", format="p")
+            main="Sine-Function", format="pd")
 
 }}
 \author{Thorn Thaler}

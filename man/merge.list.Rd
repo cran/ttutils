@@ -13,7 +13,7 @@
     in the merged list.}
   \item{y}{a list of possibly named elements or any object,
     which can be coerced to \code{list}. If an element
-    has a name occuring also in the argument \code{x} it will
+    has a name occuring also in the argument \code{x}, it will
     not be included in the merged list to avoid duplicate names. If
     \code{NULL}, \code{x} is returned.}
   \item{mergeUnnamed}{logical. If \code{TRUE} (the default) unnamed

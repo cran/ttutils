@@ -14,7 +14,7 @@
 }
 \details{
   \tabular{ll}{
-    Version: \tab 1.0-0\cr
+    Version: \tab 1.0-1\cr
     Date: \tab 2009-06-18\cr
     License: \tab GPL-2\cr
     Built: \tab R 2.8.1; ; 2009-06-22 15:18:40; unix
@@ -35,8 +35,7 @@
   \tabular{ll}{
     \code{.parseRelation} \tab :  Parse a relation symbol and return the
     result of the comparison\cr
-    \code{.savePdf} \tab : Save a plot as \dQuote{pdf} \cr
-    \code{.savePs} \tab : Save a plot as \dQuote{eps}
+    \code{.saveDevice} \tab : Save a plot on a given device \cr
   }
 }
 \author{

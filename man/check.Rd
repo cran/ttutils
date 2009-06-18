@@ -11,7 +11,7 @@ check(object, \dots)
 \arguments{
   \item{object}{an object to be tested for validity.}
   \item{\dots}{further arguments to be passed to the particular
-    dispachted function.}
+    dispatched function.}
 }
 \details{
   \code{check} tests if a given object meets the formal requirements of

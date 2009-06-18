@@ -1,25 +1,30 @@
-.savePdf <- function(plot.func, plot.name, pdf.options, ...) {
-  fileName <- paste(plot.name, "pdf", sep=".")
-  pdf.options <- c(pdf.options, list(file=fileName))
-  do.call("pdf", pdf.options)
+.saveDevice <- function(plot.func, plot.name, options, ext, ...) {
+  fileName <- paste(plot.name, ext, sep=".")
+  options <- c(options, list(file=fileName))
+  device <- switch(ext,
+                   "eps"  = "postscript",
+                   "ps"   = "postscript",
+                   "pdf"  = "pdf",
+                   "jpg"  = "jpeg",
+                   "jpeg"  = "jpeg",
+                   "png"  = "png",
+                   "bmp"  = "bmp",
+                   "tiff" = "tiff",
+                   "emf"  = "win.metafile",
+                   "wmf"  = "win.metafile")
+  do.call(device, options)
   plot.func(...)
   dev.off()
 }
-
-.savePs <- function(plot.func, plot.name, ps.options, is.trellis, ...) {
-  fileName <- paste(plot.name, "eps", sep = ".")
-  ps.options <- c(ps.options, list(file=fileName))
-  do.call("postscript", ps.options)
-  plot.func(...)
-  dev.off()
-}
-
+  
 plotAndSave <- function(plot.func, plot.name, ..., folder=getwd(),
                         format=c("eps", "pdf"),
-                        ps.options=list(onefile=TRUE, horizontal=FALSE,
-                          paper="special", width=7, height=7),
-                        pdf.options=list(onefile=TRUE), do.plot=TRUE,
-                        do.return=do.plot) { 
+                        options=list(eps = list(onefile=TRUE, horizontal=FALSE,
+                                       paper="special", width=7, height=7),
+                          ps = list(onefile=TRUE, horizontal=FALSE,
+                            paper="special", width=7, height=7),
+                          pdf=list(onefile=TRUE)),
+                        do.plot=TRUE, do.return=do.plot) { 
   n <- nchar(folder)
   ch <- substr(folder, n, n)
   if (ch != .Platform$file.sep) {
@@ -30,17 +35,18 @@ plotAndSave <- function(plot.func, plot.name, ..., folder=getwd(),
     warning("Plot will not be displayed, hence there will be no return value!")
   }
   fileName <- paste(folder, plot.name, sep="")
-  chosenFormats <- unique(match.arg(format, several.ok=T))
+  chosenFormats <- unique(match.arg(tolower(format),
+                                    c("eps", "pdf", "ps", "jpg", "png", "bmp",
+                                      "tiff", "emf", "wmf"), several.ok=T))
+  
+  winFormats <- chosenFormats %in% c("emf", "wmf") 
+  if ((.Platform$OS.type != "windows") && any(winFormats)) {
+    warning("Windows metafiles can be generated only under Windows!")
+    chosenFormats <- chosenFormats[!winFormats]
+  }
   plotFunction <- match.fun(plot.func)
-  lapply(chosenFormats, function(type)
-         switch(type,
-                "pdf" = {
-                  .savePdf(plotFunction, fileName, pdf.options, ...);
-                },
-                "eps" = {
-                  .savePs( plotFunction, fileName, ps.options,  ...);
-                })
-         )
+  lapply(chosenFormats, function(ext)
+         .saveDevice(plotFunction, fileName, options[[ext]], ext, ...))
   if (do.plot) {
     if (do.return) {
       return(plot.func(...))

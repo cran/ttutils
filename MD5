@@ -1,0 +1,12 @@
+d41eeec3582567bce653140ff2718fbf *DESCRIPTION
+38c1f7a16a592b226c34761d3a195d7e *NAMESPACE
+39317a2f8aabfe9db88708d731134f44 *R/check.R
+7c62a2f9f06427ba5909d8fd974fc082 *R/interval.R
+bf247ba85dcdf46049cb887964e91603 *R/plotAndSave.R
+12ba536c67d8760ba398fb9dc7498587 *R/utils.R
+8e9d2b121c4e7d9e534854174c25f2c9 *man/00_ttutils-package.Rd
+ece23ff6b09b50cb91f2211ecfee8974 *man/check.Rd
+cf3aa77825d246268dac5455393f4e72 *man/interval.Rd
+5daa3f2424dee12135e7af093a669d33 *man/isInteger.Rd
+893a55e7852c24ae1aac46c55b551bd2 *man/merge.list.Rd
+16bee6463e52589ba05b765e233d66c7 *man/plotAndSave.Rd
